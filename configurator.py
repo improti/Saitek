@@ -39,7 +39,9 @@ class DeviceComms:
             self.hasContext = 0
 
     def getHandle(self):
-        # List of supported product ids.
+        # List of supported product ids. The list is an array of arrays;
+        # The child arrays are following this structure :
+        # [vendorID, [productID1, productID2, ...]
         products = [
                    [0x06a3, # Saitek devices
                    [0x0cfa, 0x0cd9]],
