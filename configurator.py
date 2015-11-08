@@ -12,7 +12,6 @@ from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal, QObject
 import usb1
 import copy
 
-
 class DeviceComms:
     def __init__(self):
         self.handle = 0
@@ -40,14 +39,20 @@ class DeviceComms:
             self.hasContext = 0
 
     def getHandle(self):
-            # List of supported product ids.
-            products = [0x0cfa, 0x0cd9]
-            self.handle = None
-            self.hasHandle = 0
-            for product in products:
+        # List of supported product ids.
+        products = [
+                   [0x06a3, # Saitek devices
+                   [0x0cfa, 0x0cd9]],
+                   [0x0738, # MadCatz Devices
+                   [0x1709]]
+                   ]
+        self.handle = None
+        self.hasHandle = 0
+        for vendor in products:
+            for productID in vendor[1]:
                 try:
                     self.handle = self.context.openByVendorIDAndProductID(
-                        0x06a3, product)
+                        vendor[0], productID)
                 except:
                     pass
 
@@ -55,11 +60,14 @@ class DeviceComms:
                     self.hasHandle = 1
                     break
 
-            if not self.hasHandle:
-                print("Could not acquire device handle. Please ensure "
-                    + "that it is correctly plugged in and that you "
-                    + "have the appropriate rights.")
-                exit(-1)
+            if self.hasHandle:
+                break
+
+        if not self.hasHandle:
+            print("Could not acquire device handle. Please ensure "
+                + "that it is correctly plugged in and that you "
+                + "have the appropriate rights.")
+            exit(-1)
 
     def getDpi(self, dpi):
         if not self.hasContext or not self.hasHandle:
