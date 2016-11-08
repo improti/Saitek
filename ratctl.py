@@ -44,6 +44,7 @@ class DeviceComms:
             products = [
               [0x06a3, 0x0cfa],   # Saitek something
               [0x06a3, 0x0cd9],   # Saitek something
+              [0x0738, 0x1705]    # MadCatz R.A.T.5
             ]
             self.handle = None
             self.hasHandle = 0
