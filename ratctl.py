@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import logging
+
 from PyQt5.QtWidgets import (QApplication, QWidget, QGridLayout,
                              QProgressBar, QSlider, QTabWidget,
                              QVBoxLayout, QSpinBox, QGroupBox,
@@ -12,6 +14,9 @@ from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal, QObject
 import usb1
 import copy
 
+# initialise logging - logging.DEBUG vs. logging.WARN vs. logging.INFO
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s [%(levelname)s]: %(message)s")
+logging.info(sys.argv[0] + " running ...")
 
 class DeviceComms:
     def __init__(self):
@@ -48,8 +53,10 @@ class DeviceComms:
             ]
             self.handle = None
             self.hasHandle = 0
+            logging.debug("Trying to connect to all known usb ids now:")
             for product in products:
                 try:
+                    logging.debug(".. now trying id " + hex(product[0]) + ":" + hex(product[1]))
                     self.handle = self.context.openByVendorIDAndProductID(
                         product[0], product[1])
                 except:
@@ -60,7 +67,7 @@ class DeviceComms:
                     break
 
             if not self.hasHandle:
-                print("Could not acquire device handle. Please ensure "
+                logging.error("Could not acquire device handle. Please ensure "
                     + "that it is correctly plugged in and that you "
                     + "have the appropriate rights.")
                 exit(-1)
