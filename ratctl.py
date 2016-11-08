@@ -344,7 +344,7 @@ def main():
 
     w.resize(800, 600)
     w.move(300, 300)
-    w.setWindowTitle('R.A.T.9 Configurator')
+    w.setWindowTitle('R.A.T. Mouse Configurator')
     w.show()
 
     sys.exit(app.exec_())
