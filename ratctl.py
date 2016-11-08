@@ -184,7 +184,10 @@ class Data(QWidget):
         self.com.sendDpi(self.dpi)
 
     def displayResults(self):
-        self.pbar.setValue(self.battery)
+        if (self.battery):
+          self.pbar.setValue(self.battery)
+        else:
+          self.pbar.setValue(100)
         if self.dpiMode != self.lastDpiMode:
             # `dpiMode` starts at 1.
             self.tabs.setCurrentIndex(self.dpiMode - 1)
