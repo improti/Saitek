@@ -40,14 +40,17 @@ class DeviceComms:
             self.hasContext = 0
 
     def getHandle(self):
-            # List of supported product ids.
-            products = [0x0cfa, 0x0cd9]
+            # Array of Arrays with supported USB product ids.
+            products = [
+              [0x06a3, 0x0cfa],   # Saitek something
+              [0x06a3, 0x0cd9],   # Saitek something
+            ]
             self.handle = None
             self.hasHandle = 0
             for product in products:
                 try:
                     self.handle = self.context.openByVendorIDAndProductID(
-                        0x06a3, product)
+                        product[0], product[1])
                 except:
                     pass
 
